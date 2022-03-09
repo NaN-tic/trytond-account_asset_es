@@ -11,6 +11,10 @@ class AccountTypeTemplate(metaclass=PoolMeta):
     def __setup__(cls):
         super(AccountTypeTemplate, cls).__setup__()
 
+        if hasattr(cls, 'assets'):
+            cls.assets.states = {
+                'invisible': (~Eval('statement').in_(['balance', 'income'])),
+                }
         if hasattr(cls, 'fixed_asset'):
             cls.fixed_asset.domain = [
                 If(~Eval('statement').in_(['balance', 'income']),
@@ -29,6 +33,10 @@ class AccountType(metaclass=PoolMeta):
     def __setup__(cls):
         super(AccountType, cls).__setup__()
 
+        if hasattr(cls, 'assets'):
+            cls.assets.states = {
+                'invisible': (~Eval('statement').in_(['balance', 'income'])),
+                }
         if hasattr(cls, 'fixed_asset'):
             cls.fixed_asset.domain = [
                 If(~Eval('statement').in_(['balance', 'income']),
